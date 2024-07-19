@@ -345,7 +345,7 @@ pub struct OverlayPlugin {
 }
 impl Default for OverlayPlugin {
     fn default() -> Self {
-        Self { fallback_color: Color::YELLOW, font_size: 13.0 }
+        Self { fallback_color: Color::from(bevy::color::palettes::basic::YELLOW), font_size: 13.0 }
     }
 }
 

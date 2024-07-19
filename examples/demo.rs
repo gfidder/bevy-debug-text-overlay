@@ -39,13 +39,13 @@ fn screen_print_text(time: Res<Time>) {
     };
     if at_interval(3.123) {
         let colors = [
-            Color::RED,
-            Color::ORANGE,
-            Color::YELLOW,
-            Color::GREEN,
-            Color::CYAN,
-            Color::BLUE,
-            Color::VIOLET,
+            Color::from(bevy::color::palettes::basic::RED),
+            Color::from(bevy::color::palettes::css::ORANGE),
+            Color::from(bevy::color::palettes::basic::YELLOW),
+            Color::from(bevy::color::palettes::basic::GREEN),
+            Color::from(bevy::color::palettes::css::AQUA),
+            Color::from(bevy::color::palettes::basic::BLUE),
+            Color::from(bevy::color::palettes::css::VIOLET),
         ];
         for (i, color) in colors.iter().enumerate() {
             screen_print!(push, sec: 1.9384, col: *color, "seven messages each 3 seconds: {i}");
@@ -62,11 +62,11 @@ fn screen_print_text(time: Res<Time>) {
     }
     mut_show.field_1 = 34.34234;
     if at_interval(12.934) {
-        let col = Color::RED;
+        let col = Color::from(bevy::color::palettes::basic::RED);
         screen_print!(col: col, "every 13: {}, {:?}", show.field_2, show.field_3)
     }
     if at_interval(4.832) {
-        let col = Color::PINK;
+        let col = Color::from(bevy::color::palettes::css::DEEP_PINK);
         screen_print!(sec: 3.2123, col: col, "every 30: {mut_show:?}");
     }
     if at_interval(0.13243) {
@@ -90,8 +90,8 @@ fn show_fps(time: Res<Time>, mut deltas: Local<Vec<f32>>, mut ring_ptr: Local<us
     if at_interval(2.0) {
         let fps = deltas.len() as f32 / deltas.iter().sum::<f32>();
         let last_fps = 1.0 / time.delta_seconds();
-        screen_print!(col: Color::GREEN, "fps: {fps:.0}");
-        screen_print!(col: Color::CYAN, "last: {last_fps:.0}");
+        screen_print!(col: Color::from(bevy::color::palettes::basic::GREEN), "fps: {fps:.0}");
+        screen_print!(col: Color::from(bevy::color::palettes::css::AQUA), "last: {last_fps:.0}");
     }
 }
 
@@ -112,7 +112,7 @@ fn show_cursor_position(
             let window_size = Vec2::new(window.width(), window.height());
             let ndc = (screen_pos / window_size) * 2.0 - Vec2::ONE;
             let ndc_to_world =
-                camera_transform.compute_matrix() * camera.projection_matrix().inverse();
+                camera_transform.compute_matrix() * camera.clip_from_view().inverse();
             let world_pos = ndc_to_world.project_point3(ndc.extend(-1.0));
             let world_pos: Vec2 = world_pos.truncate();
 
